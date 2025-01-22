@@ -4,6 +4,7 @@ import { SignInModal } from "./SignInModal";
 import { SignUpModal } from "./SignUpModal";
 import { observer } from "mobx-react-lite";
 import { userStore } from "../store/userStore";
+import { Link } from "react-router-dom";
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -34,11 +35,11 @@ const StyledLogin = styled.p`
   }
 `;
 
-const StyledEmail = styled.p`
+const StyledEmail = styled(Link)`
   color: #fff;
   font-size: 18px;
   font-weight: 500;
-`
+`;
 
 export const Header = observer(() => {
   const [showModal, setShowModal] = useState(false);
@@ -65,8 +66,12 @@ export const Header = observer(() => {
         <StyledLogo>
           Bookmaker <span>app</span>
         </StyledLogo>
-        {!userStore.user && <StyledLogin onClick={() => setShowModal(true)}>Sign in</StyledLogin>}
-        {userStore.user && <StyledEmail>{userStore.user.email}</StyledEmail>}
+        {!userStore.user && (
+          <StyledLogin onClick={() => setShowModal(true)}>Sign in</StyledLogin>
+        )}
+        {userStore.user && (
+          <StyledEmail to="/account">{userStore.user.email}</StyledEmail>
+        )}
       </StyledWrapper>
       {showModal && (
         <SignInModal
