@@ -33,6 +33,17 @@ class UserStore {
       toast("Error occured", { type: "error" });
     }
   }
+
+  async signIn(email: string, password: string) {
+    try {
+      const { data } = await userApi.signIn(email, password);
+      if (data) {
+        this.setUserData(data.user, data.token);
+      }
+    } catch (e) {
+      toast("Error occured", { type: "error" });
+    }
+  }
 }
 
 export const userStore = new UserStore();
