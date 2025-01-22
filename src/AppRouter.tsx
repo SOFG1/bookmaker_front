@@ -17,7 +17,7 @@ export const AppRouter = observer(() => {
 
   return (
       <Routes>
-        {userStore.token && <Route path="/account" element={<AccountPage />} />}
+        <Route path="/account" element={<AccountPage />} />
         <Route path="*" element={<MainPage />} />
       </Routes>
   );
