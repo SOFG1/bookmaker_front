@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Modal } from "../UI/Modal";
 import { useEffect, useState } from "react";
 import { SignInModal } from "./SignInModal";
 import { SignUpModal } from "./SignUpModal";
