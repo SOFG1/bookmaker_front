@@ -155,6 +155,9 @@ const Row = styled.div`
   display: flex;
   color: #181818;
   background-color: #f2f2f2;
+  &:hover {
+    background-color: #e0e0e0;
+  }
 `;
 
 const RowItem = styled.div`
@@ -182,7 +185,7 @@ export const TableView = () => {
   return (
     <Wrapper>
       <StyledHeader>
-        <HeaderName>Events date</HeaderName>
+        <HeaderName>Thursday - 23.01 2025</HeaderName>
         <HeaderItem>1</HeaderItem>
         <HeaderItem>X</HeaderItem>
         <HeaderItem>2</HeaderItem>
