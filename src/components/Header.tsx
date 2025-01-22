@@ -8,16 +8,17 @@ import { Link } from "react-router-dom";
 
 const StyledWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
   background-color: #313131;
+  gap: 10px;
 `;
 
 const StyledLogo = styled.p`
   font-size: 40px;
   font-weight: 700;
   color: #1a1a1d;
+  margin-right: auto;
   color: #fde054;
   span {
     color: #fff;
@@ -41,6 +42,17 @@ const StyledEmail = styled(Link)`
   font-weight: 500;
 `;
 
+const StyledLogout = styled.button`
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  img {
+    height: 20px;
+    width: 20px;
+  }
+`;
+
 export const Header = observer(() => {
   const [showModal, setShowModal] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
@@ -54,6 +66,10 @@ export const Header = observer(() => {
     setShowSignUp(false);
     setShowModal(true);
   };
+
+  const handleLogout = () => {
+    userStore.setUserData(null, null)
+  }
 
   useEffect(() => {
     setShowModal(false);
@@ -70,7 +86,15 @@ export const Header = observer(() => {
           <StyledLogin onClick={() => setShowModal(true)}>Sign in</StyledLogin>
         )}
         {userStore.user && (
-          <StyledEmail to="/account">{userStore.user.email}</StyledEmail>
+          <>
+            <StyledLogout onClick={handleLogout}>
+              <img
+                src="https://cdn1.iconfinder.com/data/icons/heroicons-ui/24/logout-512.png"
+                alt="logout-icon"
+              />
+            </StyledLogout>
+            <StyledEmail to="/account">{userStore.user.email}</StyledEmail>
+          </>
         )}
       </StyledWrapper>
       {showModal && (

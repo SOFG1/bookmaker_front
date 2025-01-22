@@ -10,7 +10,7 @@ export interface IUser {
 
 class UserStore {
   user: IUser | null = JSON.parse(localStorage.getItem("user") || "null");
-  token: string | null = localStorage.getItem("token") || null;
+  token: string | null = localStorage.getItem("token")
 
   constructor() {
     makeAutoObservable(this);
