@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Modal } from "../UI/Modal";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { userStore } from "../store/userStore";
 
 const StyledWrapper = styled.form`
   display: flex;
@@ -36,7 +37,8 @@ export const SignUpModal = ({ onClose, openSignIn }: IProps) => {
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
 
-  const handleSignUp = () => {
+  const handleSignUp = (e: React.FormEvent) => {
+    e.preventDefault()
     if (password.length < 6) {
       toast("Password must contain at least 6 characters !", { type: "error" });
     }
@@ -44,6 +46,7 @@ export const SignUpModal = ({ onClose, openSignIn }: IProps) => {
       toast("Passwords don't match !", { type: "error" });
       return;
     }
+    userStore.signUp(email, password);
   };
 
   return (

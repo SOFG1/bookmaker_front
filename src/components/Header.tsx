@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { Modal } from "../UI/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SignInModal } from "./SignInModal";
 import { SignUpModal } from "./SignUpModal";
+import { observer } from "mobx-react-lite";
+import { userStore } from "../store/userStore";
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -33,7 +35,13 @@ const StyledLogin = styled.p`
   }
 `;
 
-export const Header = () => {
+const StyledEmail = styled.p`
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+`
+
+export const Header = observer(() => {
   const [showModal, setShowModal] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
 
@@ -47,13 +55,19 @@ export const Header = () => {
     setShowModal(true);
   };
 
+  useEffect(() => {
+    setShowModal(false);
+    setShowSignUp(false);
+  }, [userStore.user]);
+
   return (
     <>
       <StyledWrapper>
         <StyledLogo>
           Bookmaker <span>app</span>
         </StyledLogo>
-        <StyledLogin onClick={() => setShowModal(true)}>Sign in</StyledLogin>
+        {!userStore.user && <StyledLogin onClick={() => setShowModal(true)}>Sign in</StyledLogin>}
+        {userStore.user && <StyledEmail>{userStore.user.email}</StyledEmail>}
       </StyledWrapper>
       {showModal && (
         <SignInModal
@@ -69,4 +83,4 @@ export const Header = () => {
       )}
     </>
   );
-};
+});
