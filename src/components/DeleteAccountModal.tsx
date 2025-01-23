@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { Modal } from "../UI/Modal";
 import { useState } from "react";
+import { userApi } from "../api/user";
+import { toast } from "react-toastify";
+import { userStore } from "../store/userStore";
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -21,6 +24,22 @@ interface IProps {
 
 export const DeleteAccountModal = ({ onClose }: IProps) => {
   const [password, setPassword] = useState("");
+  const [isFetching, setIsFetching] = useState(false);
+
+  async function handleDelete() {
+    try {
+      setIsFetching(true);
+      const { data } = await userApi.deleteAccount(password);
+      if (data) toast(data.message, { type: "success" });
+      userStore.setUserData(null, null);
+      onClose();
+    } catch (e) {
+      toast(String(e), { type: "error" });
+    } finally {
+      setIsFetching(false);
+    }
+  }
+
   return (
     <Modal onClose={onClose}>
       <StyledWrapper>
@@ -28,10 +47,13 @@ export const DeleteAccountModal = ({ onClose }: IProps) => {
         <input
           style={{ width: "100%" }}
           type="password"
+          placeholder="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button>Delete account permanently</button>
+        <button onClick={handleDelete} disabled={isFetching}>
+          Delete account permanently
+        </button>
       </StyledWrapper>
     </Modal>
   );

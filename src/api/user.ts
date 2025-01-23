@@ -10,4 +10,7 @@ export const userApi = {
   checkAuth() {
     return axiosInstance.get("/user/auth");
   },
+  deleteAccount(password: string) {
+    return axiosInstance.delete("/user/delete", { data: { password } });
+  },
 };

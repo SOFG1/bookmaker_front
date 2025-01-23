@@ -13,7 +13,7 @@ export const AppRouter = observer(() => {
     if(location.pathname === "/account" && !userStore.token) {
       navigate("/")
     }
-  }, [location])
+  }, [location, userStore.token])
 
   return (
       <Routes>
