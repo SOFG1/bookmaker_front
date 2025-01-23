@@ -14,11 +14,12 @@ const StyledWrapper = styled.div`
   gap: 10px;
 `;
 
-const StyledLogo = styled.p`
+const StyledLogo = styled(Link)`
   font-size: 40px;
   font-weight: 700;
   color: #1a1a1d;
   margin-right: auto;
+  text-decoration: none;
   color: #fde054;
   span {
     color: #fff;
@@ -79,7 +80,7 @@ export const Header = observer(() => {
   return (
     <>
       <StyledWrapper>
-        <StyledLogo>
+        <StyledLogo to="/">
           Bookmaker <span>app</span>
         </StyledLogo>
         {!userStore.user && (

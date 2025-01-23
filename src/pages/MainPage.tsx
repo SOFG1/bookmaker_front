@@ -13,9 +13,6 @@ export const MainPage = () => {
     <div className="container">
       <Title>Top matches</Title>
       <TableView />
-      <TableView />
-      <TableView />
-      <TableView />
     </div>
   );
 };

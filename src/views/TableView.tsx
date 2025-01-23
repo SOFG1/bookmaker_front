@@ -1,126 +1,6 @@
+import { useEffect } from "react";
 import styled from "styled-components";
-
-const data = [
-  {
-    "1": 1.6,
-    "2": 5.9,
-    "12": 1.2,
-    id: 1,
-    date: "21:45",
-    name: "Barcelona - Real Madrid",
-    X: 3.7,
-    "1X": 1.15,
-    X2: 2,
-    "(0)1": 1.23,
-    "(0)2": 3.5,
-    "2.5 over": 2.2,
-    "2.5 under": 1.55,
-    yes: 1.6,
-    no: 2.1,
-  },
-  {
-    "1": 1.6,
-    "2": 5.9,
-    "12": 1.2,
-    id: 2,
-    date: "21:45",
-    name: "Barcelona - Real Madrid",
-    X: 3.7,
-    "1X": 1.15,
-    X2: 2,
-    "(0)1": 1.23,
-    "(0)2": 3.5,
-    "2.5 over": 2.2,
-    "2.5 under": 1.55,
-    yes: 1.6,
-    no: 2.1,
-  },
-  {
-    "1": 1.6,
-    "2": 5.9,
-    "12": 1.2,
-    id: 3,
-    date: "21:45",
-    name: "Barcelona - Real Madrid",
-    X: 3.7,
-    "1X": 1.15,
-    X2: 2,
-    "(0)1": 1.23,
-    "(0)2": 3.5,
-    "2.5 over": 2.2,
-    "2.5 under": 1.55,
-    yes: 1.6,
-    no: 2.1,
-  },
-  {
-    "1": 1.6,
-    "2": 5.9,
-    "12": 1.2,
-    id: 4,
-    date: "21:45",
-    name: "Barcelona - Real Madrid",
-    X: 3.7,
-    "1X": 1.15,
-    X2: 2,
-    "(0)1": 1.23,
-    "(0)2": 3.5,
-    "2.5 over": 2.2,
-    "2.5 under": 1.55,
-    yes: 1.6,
-    no: 2.1,
-  },
-  {
-    "1": 1.6,
-    "2": 5.9,
-    "12": 1.2,
-    id: 5,
-    date: "21:45",
-    name: "Barcelona - Real Madrid",
-    X: 3.7,
-    "1X": 1.15,
-    X2: 2,
-    "(0)1": 1.23,
-    "(0)2": 3.5,
-    "2.5 over": 2.2,
-    "2.5 under": 1.55,
-    yes: 1.6,
-    no: 2.1,
-  },
-  {
-    "1": 1.6,
-    "2": 5.9,
-    "12": 1.2,
-    id: 6,
-    date: "21:45",
-    name: "Barcelona - Real Madrid",
-    X: 3.7,
-    "1X": 1.15,
-    X2: 2,
-    "(0)1": 1.23,
-    "(0)2": 3.5,
-    "2.5 over": 2.2,
-    "2.5 under": 1.55,
-    yes: 1.6,
-    no: 2.1,
-  },
-  {
-    "1": 1.6,
-    "2": 5.9,
-    "12": 1.2,
-    id: 7,
-    date: "21:45",
-    name: "Barcelona - Real Madrid",
-    X: 3.7,
-    "1X": 1.15,
-    X2: 2,
-    "(0)1": 1.23,
-    "(0)2": 3.5,
-    "2.5 over": 2.2,
-    "2.5 under": 1.55,
-    yes: 1.6,
-    no: 2.1,
-  },
-];
+import { eventsStore } from "../store/eventsStore";
 
 const Wrapper = styled.div`
   font-size: 14px;
@@ -155,8 +35,12 @@ const Row = styled.div`
   display: flex;
   color: #181818;
   background-color: #f2f2f2;
+  border-bottom: 1px solid #C4C4C4;
   &:hover {
     background-color: #e0e0e0;
+  }
+  &:last-child {
+    border: 0;
   }
 `;
 
@@ -181,50 +65,41 @@ const RowItemDisabled = styled(RowItem)`
   }
 `;
 
+const StyledLoader = styled.p`
+  color: #fff;
+  margin: 30px;
+`;
+
 export const TableView = () => {
+  useEffect(() => {
+    eventsStore.getEvents();
+  }, []);
+
+  if (eventsStore.isFetching) {
+    return <StyledLoader>Loading...</StyledLoader>;
+  }
+
   return (
     <Wrapper>
       <StyledHeader>
-        <HeaderName>Thursday - 23.01 2025</HeaderName>
+        <HeaderName>Bundesliga, Germany</HeaderName>
         <HeaderItem>1</HeaderItem>
         <HeaderItem>X</HeaderItem>
         <HeaderItem>2</HeaderItem>
-        <HeaderItem>1X</HeaderItem>
-        <HeaderItem>12</HeaderItem>
-        <HeaderItem>X2</HeaderItem>
-        <HeaderItem>(0)1</HeaderItem>
-        <HeaderItem>(0)2</HeaderItem>
-        <HeaderItem style={{ width: "auto" }}>UNDER</HeaderItem>
-        <HeaderItem>TOT</HeaderItem>
-        <HeaderItem style={{ width: "auto" }}>OVER</HeaderItem>
-        <HeaderItem>Yes</HeaderItem>
-        <HeaderItem>No</HeaderItem>
       </StyledHeader>
       <Box>
-        {data.map((d) => {
+        {eventsStore.events.map((e) => {
           return (
-            <Row key={d.id}>
+            <Row key={e.id}>
               <RowItemDisabled style={{ width: "auto" }}>
-                {d["date"]}
+                {e.commence_time}
               </RowItemDisabled>
               <RowItemDisabled style={{ width: "auto", marginRight: "auto" }}>
-                {d["name"]}
+                {e.title}
               </RowItemDisabled>
-              <RowItem>{d["1"]}</RowItem>
-              <RowItem>{d["X"]}</RowItem>
-              <RowItem>{d["2"]}</RowItem>
-              <RowItem>{d["1X"]}</RowItem>
-              <RowItem>{d["12"]}</RowItem>
-              <RowItem>{d["X2"]}</RowItem>
-              <RowItem>{d["(0)1"]}</RowItem>
-              <RowItem>{d["(0)2"]}</RowItem>
-              <RowItem style={{ width: "70px" }}>{d["2.5 under"]}</RowItem>
-              <RowItemDisabled style={{ background: "#e0e0e0" }}>
-                2.5
-              </RowItemDisabled>
-              <RowItem style={{ width: "60px" }}>{d["2.5 over"]}</RowItem>
-              <RowItem>{d["yes"]}</RowItem>
-              <RowItem>{d["no"]}</RowItem>
+              <RowItem>{e.odds.win1}</RowItem>
+              <RowItem>{e.odds.draw}</RowItem>
+              <RowItem>{e.odds.win2}</RowItem>
             </Row>
           );
         })}

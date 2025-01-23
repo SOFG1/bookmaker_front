@@ -27,7 +27,7 @@ export const AccountPage = observer(() => {
     <div className="container">
       <StyledEmail>{userStore.user?.email}</StyledEmail>
       <StyledBalance>
-        Balance: <span>${userStore.user?.balance}</span>
+        Balance: <span>${userStore.user?.balance}</span> <button>Top up</button>
       </StyledBalance>
       <button onClick={() => setShowModal(true)}>Delete my account</button>
 
