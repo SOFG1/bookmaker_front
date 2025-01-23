@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { TableView } from "../views/TableView";
+import { TicketView } from "../views/TicketView";
 
 const Title = styled.h1`
   font-size: 30px;
@@ -11,6 +12,7 @@ const Title = styled.h1`
 export const MainPage = () => {
   return (
     <div className="container">
+      <TicketView />
       <Title>Top matches</Title>
       <TableView />
     </div>

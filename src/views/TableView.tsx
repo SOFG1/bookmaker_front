@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 import { eventsStore } from "../store/eventsStore";
+import { observer } from "mobx-react-lite";
 
 const Wrapper = styled.div`
   font-size: 14px;
   font-weight: 500;
+  max-width: calc(100vw - (100vw - 1500px) / 2 - 400px);
 `;
 
 const StyledHeader = styled.div`
@@ -35,7 +37,7 @@ const Row = styled.div`
   display: flex;
   color: #181818;
   background-color: #f2f2f2;
-  border-bottom: 1px solid #C4C4C4;
+  border-bottom: 1px solid #c4c4c4;
   &:hover {
     background-color: #e0e0e0;
   }
@@ -70,7 +72,7 @@ const StyledLoader = styled.p`
   margin: 30px;
 `;
 
-export const TableView = () => {
+export const TableView = observer(() => {
   useEffect(() => {
     eventsStore.getEvents();
   }, []);
@@ -89,10 +91,13 @@ export const TableView = () => {
       </StyledHeader>
       <Box>
         {eventsStore.events.map((e) => {
+          const date = new Date(e.commence_time);
           return (
             <Row key={e.id}>
-              <RowItemDisabled style={{ width: "auto" }}>
-                {e.commence_time}
+              <RowItemDisabled
+                style={{ width: "130px", justifyContent: "flex-start" }}
+              >
+                {date.toDateString()}
               </RowItemDisabled>
               <RowItemDisabled style={{ width: "auto", marginRight: "auto" }}>
                 {e.title}
@@ -106,4 +111,4 @@ export const TableView = () => {
       </Box>
     </Wrapper>
   );
-};
+});
