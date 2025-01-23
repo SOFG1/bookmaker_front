@@ -1,12 +1,13 @@
-import axios from "axios"
-import { API_URL } from "."
-
+import { axiosInstance } from ".";
 
 export const userApi = {
-    signUp(email: string, password: string) {
-        return axios.post(`${API_URL}/user/sign-up`, {email, password})
-    },
-    signIn(email: string, password: string) {
-        return axios.post(`${API_URL}/user/sign-in`, {email, password})
-    },
-}
+  signUp(email: string, password: string) {
+    return axiosInstance.post("/user/sign-up", { email, password });
+  },
+  signIn(email: string, password: string) {
+    return axiosInstance.post("/user/sign-in", { email, password });
+  },
+  checkAuth() {
+    return axiosInstance.get("/user/auth");
+  },
+};
