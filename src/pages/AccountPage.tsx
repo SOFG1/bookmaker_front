@@ -7,19 +7,30 @@ import { DeleteAccountModal } from "../components/DeleteAccountModal";
 const StyledEmail = styled.h1`
   font-size: 30px;
   font-weight: 700;
-  margin: 40px;
+  margin-bottom: 40px;
   color: #fff;
+`;
+
+const StyledBalance = styled.p`
+  font-size: 22px;
+  color: #fff;
+  margin-bottom: 400px;
+  span {
+    font-weight: 700;
+  }
 `;
 
 export const AccountPage = observer(() => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <div>
-      <StyledEmail>
-        {userStore.user?.email}{" "}
-        <button onClick={() => setShowModal(true)}>Delete my account</button>
-      </StyledEmail>
+    <div className="container">
+      <StyledEmail>{userStore.user?.email}</StyledEmail>
+      <StyledBalance>
+        Balance: <span>${userStore.user?.balance}</span>
+      </StyledBalance>
+      <button onClick={() => setShowModal(true)}>Delete my account</button>
+
       {showModal && <DeleteAccountModal onClose={() => setShowModal(false)} />}
     </div>
   );
