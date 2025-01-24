@@ -33,6 +33,7 @@ const StyledPlus = styled.span`
   color: #fff;
   font-weight: 700;
   font-size: 32px;
+  height: 32px;
 `;
 
 const StyledContent = styled.div`
@@ -123,7 +124,7 @@ export const TicketView = observer(() => {
     <StyledWrapper>
       <StyledHeader onClick={() => ticketStore.setOpened(!ticketStore.opened)}>
         <StyledTitle>My bets</StyledTitle>
-        <StyledPlus>{!ticketStore.opened && "+"}</StyledPlus>
+        <StyledPlus>{ticketStore.opened ? " " : "+"}</StyledPlus>
       </StyledHeader>
       {ticketStore.opened && (
         <StyledContent>
