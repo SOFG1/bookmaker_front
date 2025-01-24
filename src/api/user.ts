@@ -13,4 +13,7 @@ export const userApi = {
   deleteAccount(password: string) {
     return axiosInstance.delete("/user/delete", { data: { password } });
   },
+  topupBalance() {
+    return axiosInstance.post("/user/topup");
+  },
 };

@@ -11,6 +11,7 @@ export interface IUser {
 class UserStore {
   user: IUser | null = JSON.parse(localStorage.getItem("user") || "null");
   token: string | null = JSON.parse(localStorage.getItem("token") || "null");
+  isLoading: boolean = false
 
   constructor() {
     makeAutoObservable(this);
@@ -54,6 +55,18 @@ class UserStore {
     } catch (e) {
       this.setUserData(null, null);
       console.log(e);
+    }
+  }
+
+  async topupBalance() {
+    try {
+      this.isLoading = true
+      const { data } = await userApi.topupBalance();
+      if (data) this.user!.balance = data.balance;
+    } catch (e) {
+      toast("Error occured", { type: "error" });
+    } finally {
+      this.isLoading = false
     }
   }
 }
