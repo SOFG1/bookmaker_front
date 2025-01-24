@@ -1,8 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { eventsApi } from "../api/events";
 
-export type EventOddType = "win1" | "win2" | "draw"
-
+export type EventOddType = "win1" | "win2" | "draw";
 
 interface IEvent {
   id: string;
@@ -11,15 +10,15 @@ interface IEvent {
   away_team: string;
   commence_time: string;
   odds: {
-    [key in EventOddType]: number
+    [key in EventOddType]: number;
   };
 }
 
-function convertData(d: any[]): any[] {
+function convertData(d: any[]): IEvent[] {
   return d.map((e: any) => {
     const obj: Partial<IEvent> = {};
     obj.id = e.id;
-    obj.title = `${e.home_team} - ${e.away_team}`
+    obj.title = `${e.home_team} - ${e.away_team}`;
     obj.home_team = e.home_team;
     obj.away_team = e.away_team;
     obj.commence_time = e.commence_time;
@@ -35,7 +34,7 @@ function convertData(d: any[]): any[] {
       win2: winAway || 0,
       draw: draw || 0,
     };
-    return obj;
+    return obj as IEvent;
   });
 }
 
@@ -51,10 +50,24 @@ class EventsStore {
     try {
       this.isFetching = true;
       const { data } = await eventsApi.getEvents();
-      this.events = convertData(data)
+      this.events = convertData(data);
     } catch (e) {
     } finally {
       this.isFetching = false;
+    }
+  }
+
+  getEventOdd(id: string, odd: EventOddType) {
+    const ev = this.events.find((e) => e.id === id);
+    return ev?.odds[odd];
+  }
+
+  updateEvents(data: any[]) {
+    const formated = convertData(data)
+    for(let i = 0; i < formated.length; i ++) {
+      const item = formated[i]
+      const index = this.events.findIndex(ev => ev.id === item.id)
+      this.events[index] = item
     }
   }
 }

@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { ticketStore } from "../store/ticketStore";
 import { useMemo, useState } from "react";
 import { MAX_BET, MAX_WIN } from "../constants";
+import { betsStore } from "../store/betsStore";
 
 const StyledWrapper = styled.div`
   background-color: #fde054;
@@ -77,6 +78,10 @@ const StyledBtn = styled.button`
   &:hover {
     background-color: #3bc931;
   }
+  &:disabled {
+    background-color: #597757;
+    cursor: not-allowed;
+  }
   margin-bottom: 15px;
 `;
 
@@ -89,13 +94,36 @@ const ClearBtn = styled.button`
   cursor: pointer;
 `;
 
+const StyledMessage = styled.p`
+  color: #dc1a1a;
+  margin-bottom: 15px;
+  font-weight: 500;
+  text-align: center;
+`;
+
 export const TicketView = observer(() => {
+  const [oddsMesasge, setOddsMessage] = useState(false);
   const [amount, setAmount] = useState<string>("");
 
   const totalOdd = useMemo(() => {
     if (ticketStore.totalOdds === 1) return "";
     return ticketStore.totalOdds.toFixed(2);
   }, [ticketStore.totalOdds]);
+
+  const winning = useMemo(() => {
+    let w = Number(amount) * Number(totalOdd);
+    if (w > MAX_WIN) w = MAX_WIN;
+    return w.toFixed(2);
+  }, [amount, totalOdd]);
+
+
+  const handleBet = async () => {
+    const {message} = await betsStore.createBet(Number(amount))
+    if(message === "odds_changed") {
+      setOddsMessage(true)
+      setTimeout(() => setOddsMessage(false), 6000)
+    }
+  }
 
   const handleChange = (val: string) => {
     if (val === "") {
@@ -113,12 +141,6 @@ export const TicketView = observer(() => {
     }
     setAmount(String(num));
   };
-
-  const winning = useMemo(() => {
-      let w = Number(amount) * Number(totalOdd)
-      if(w> MAX_WIN) w = MAX_WIN
-      return w.toFixed(2)
-  }, [amount, totalOdd])
 
   return (
     <StyledWrapper>
@@ -152,7 +174,13 @@ export const TicketView = observer(() => {
             <StyledWin>
               Possible win: <span>{winning}</span>
             </StyledWin>
-            <StyledBtn>Place bet</StyledBtn>
+            <StyledBtn
+              onClick={handleBet}
+              disabled={betsStore.isFetching || !amount || !ticketStore.events.length}
+            >
+              Place bet
+            </StyledBtn>
+            {oddsMesasge && <StyledMessage>Odds changed please try again</StyledMessage>}
             <ClearBtn onClick={() => ticketStore.clear()}>clear</ClearBtn>
           </StyledControls>
         </StyledContent>

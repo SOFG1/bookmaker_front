@@ -1,11 +1,10 @@
 import { makeAutoObservable } from "mobx";
-import { EventOddType } from "./eventsStore";
+import { EventOddType, eventsStore } from "./eventsStore";
 import { MAX_ODD } from "../constants";
 
-type TicketEvent = {
+export type TicketEvent = {
   eventId: string;
   place: EventOddType;
-  odd: number;
 };
 
 class TicketStore {
@@ -18,7 +17,8 @@ class TicketStore {
 
   get totalOdds() {
     let tot = this.events.reduce((a, c) => {
-      return a * c.odd;
+      const odd = eventsStore.getEventOdd(c.eventId, c.place) || 1
+      return a * odd;
     }, 1);
     if (tot > MAX_ODD) tot = MAX_ODD;
     return Number(tot.toFixed(2));
@@ -28,11 +28,11 @@ class TicketStore {
     this.opened = opened;
   }
 
-  addEvent(eventId: string, place: EventOddType, odd: number) {
+  addEvent(eventId: string, place: EventOddType) {
     this.opened = true;
     const added = this.events.find((e) => e.eventId === eventId);
     if (!added) {
-      this.events.push({ eventId, place, odd });
+      this.events.push({ eventId, place });
       return;
     }
     if (added && added.place === place) {
@@ -41,7 +41,7 @@ class TicketStore {
     }
     if (added && added.place !== place) {
       this.removeEvent(eventId);
-      this.events.push({ eventId, place, odd });
+      this.events.push({ eventId, place });
       return;
     }
   }
@@ -53,6 +53,10 @@ class TicketStore {
 
   clear() {
     this.events = [];
+  }
+
+  updateTicketOdds() {
+    console.log("update")
   }
 }
 

@@ -109,7 +109,7 @@ export const TableView = observer(() => {
               </RowItemDisabled>
               <RowItem
                 onClick={() =>
-                  ticketStore.addEvent(e.id, "win1", e.odds["win1"])
+                  ticketStore.addEvent(e.id, "win1")
                 }
                 $activeRow={ticketEvent?.place === "win1"}
               >
@@ -117,7 +117,7 @@ export const TableView = observer(() => {
               </RowItem>
               <RowItem
                 onClick={() =>
-                  ticketStore.addEvent(e.id, "draw", e.odds["draw"])
+                  ticketStore.addEvent(e.id, "draw")
                 }
                 $activeRow={ticketEvent?.place === "draw"}
               >
@@ -125,7 +125,7 @@ export const TableView = observer(() => {
               </RowItem>
               <RowItem
                 onClick={() =>
-                  ticketStore.addEvent(e.id, "win2", e.odds["win2"])
+                  ticketStore.addEvent(e.id, "win2")
                 }
                 $activeRow={ticketEvent?.place === "win2"}
               >
