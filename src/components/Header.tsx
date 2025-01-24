@@ -5,9 +5,11 @@ import { SignUpModal } from "./SignUpModal";
 import { observer } from "mobx-react-lite";
 import { userStore } from "../store/userStore";
 import { Link } from "react-router-dom";
+import { HeaderNav } from "./HeaderNav";
 
 const StyledWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
   background-color: #313131;
@@ -18,7 +20,6 @@ const StyledLogo = styled(Link)`
   font-size: 40px;
   font-weight: 700;
   color: #1a1a1d;
-  margin-right: auto;
   text-decoration: none;
   color: #fde054;
   span {
@@ -54,6 +55,12 @@ const StyledLogout = styled.button`
   }
 `;
 
+const StyledBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+`;
+
 export const Header = observer(() => {
   const [showModal, setShowModal] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
@@ -69,8 +76,8 @@ export const Header = observer(() => {
   };
 
   const handleLogout = () => {
-    userStore.setUserData(null, null)
-  }
+    userStore.setUserData(null, null);
+  };
 
   useEffect(() => {
     setShowModal(false);
@@ -83,11 +90,12 @@ export const Header = observer(() => {
         <StyledLogo to="/">
           Bookmaker <span>app</span>
         </StyledLogo>
+        {userStore.user && <HeaderNav />}
         {!userStore.user && (
           <StyledLogin onClick={() => setShowModal(true)}>Sign in</StyledLogin>
         )}
         {userStore.user && (
-          <>
+          <StyledBox>
             <StyledLogout onClick={handleLogout}>
               <img
                 src="https://cdn1.iconfinder.com/data/icons/heroicons-ui/24/logout-512.png"
@@ -95,7 +103,7 @@ export const Header = observer(() => {
               />
             </StyledLogout>
             <StyledEmail to="/account">{userStore.user.email}</StyledEmail>
-          </>
+          </StyledBox>
         )}
       </StyledWrapper>
       {showModal && (

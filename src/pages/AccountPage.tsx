@@ -3,6 +3,7 @@ import { userStore } from "../store/userStore";
 import styled from "styled-components";
 import { useState } from "react";
 import { DeleteAccountModal } from "../components/DeleteAccountModal";
+import { BetsView } from "../views/BetsView";
 
 const StyledEmail = styled.h1`
   font-size: 30px;
@@ -14,7 +15,7 @@ const StyledEmail = styled.h1`
 const StyledBalance = styled.p`
   font-size: 22px;
   color: #fff;
-  margin-bottom: 400px;
+  margin-bottom: 20px;
   span {
     font-weight: 700;
   }
@@ -28,10 +29,14 @@ export const AccountPage = observer(() => {
       <StyledEmail>{userStore.user?.email}</StyledEmail>
       <StyledBalance>
         Balance: <span>${userStore.user?.balance}</span>{" "}
-        <button disabled={userStore.isLoading} onClick={() => userStore.topupBalance()}>
+        <button
+          disabled={userStore.isLoading}
+          onClick={() => userStore.topupBalance()}
+        >
           Top up
         </button>
       </StyledBalance>
+      <BetsView />
       <button onClick={() => setShowModal(true)}>Delete my account</button>
       {showModal && <DeleteAccountModal onClose={() => setShowModal(false)} />}
     </div>

@@ -6,6 +6,9 @@ interface BetEvent extends TicketEvent {
 }
 
 export const betsApi = {
+    getBets() {
+        return axiosInstance.get("bets")
+    },
     createBet(amount: number, events: BetEvent[]) {
         return axiosInstance.post("bets", {amount, events})
     }
