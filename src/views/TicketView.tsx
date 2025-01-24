@@ -123,6 +123,9 @@ export const TicketView = observer(() => {
       setOddsMessage(true)
       setTimeout(() => setOddsMessage(false), 6000)
     }
+    if(message === "success") {
+      setAmount("")
+    }
   }
 
   const handleChange = (val: string) => {

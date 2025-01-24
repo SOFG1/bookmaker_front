@@ -2,6 +2,8 @@ import { makeAutoObservable } from "mobx";
 import { TicketEvent, ticketStore } from "./ticketStore";
 import { betsApi } from "../api/bets";
 import { eventsStore } from "./eventsStore";
+import { userStore } from "./userStore";
+import { toast } from "react-toastify";
 
 export interface IBet {
     amount: number
@@ -28,6 +30,11 @@ class BetsStore {
         const {data} = await betsApi.createBet(amount, events)
         if(data.message === "odds_changed") {
             eventsStore.updateEvents(data.data)
+        }
+        if(data.message === "success") {
+            ticketStore.events = []
+            userStore.user = data.data.user
+            toast("Success", {type: "success"})
         }
         return data
     } catch(e) {
