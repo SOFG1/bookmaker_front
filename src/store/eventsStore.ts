@@ -1,6 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import { eventsApi } from "../api/events";
 
+export type EventOddType = "win1" | "win2" | "draw"
+
+
 interface IEvent {
   id: string;
   title: string;
@@ -8,9 +11,7 @@ interface IEvent {
   away_team: string;
   commence_time: string;
   odds: {
-    win1: number;
-    draw: number;
-    win2: number;
+    [key in EventOddType]: number
   };
 }
 

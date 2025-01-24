@@ -1,5 +1,9 @@
 import styled from "styled-components";
 import { TicketEventComponent } from "../components/TicketEventComponent";
+import { observer } from "mobx-react-lite";
+import { ticketStore } from "../store/ticketStore";
+import { useMemo, useState } from "react";
+import { MAX_BET, MAX_WIN } from "../constants";
 
 const StyledWrapper = styled.div`
   background-color: #fde054;
@@ -35,7 +39,11 @@ const StyledContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  padding: 10px 0;
+`;
+
+const StyledList = styled.div`
+  max-height: 500px;
+  overflow-y: auto;
 `;
 
 const StyledControls = styled.div`
@@ -80,34 +88,74 @@ const ClearBtn = styled.button`
   cursor: pointer;
 `;
 
-export const TicketView = () => {
+export const TicketView = observer(() => {
+  const [amount, setAmount] = useState<string>("");
+
+  const totalOdd = useMemo(() => {
+    if (ticketStore.totalOdds === 1) return "";
+    return ticketStore.totalOdds.toFixed(2);
+  }, [ticketStore.totalOdds]);
+
+  const handleChange = (val: string) => {
+    if (val === "") {
+      setAmount("");
+      return;
+    }
+    const num = Number(val);
+    if (num < 0) {
+      setAmount(String(0));
+      return;
+    }
+    if (num > MAX_BET) {
+      setAmount(String(MAX_BET));
+      return;
+    }
+    setAmount(String(num));
+  };
+
+  const winning = useMemo(() => {
+      let w = Number(amount) * Number(totalOdd)
+      if(w> MAX_WIN) w = MAX_WIN
+      return w.toFixed(2)
+  }, [amount, totalOdd])
+
   return (
     <StyledWrapper>
-      <StyledHeader>
+      <StyledHeader onClick={() => ticketStore.setOpened(!ticketStore.opened)}>
         <StyledTitle>My bets</StyledTitle>
-        <StyledPlus>+</StyledPlus>
+        <StyledPlus>{!ticketStore.opened && "+"}</StyledPlus>
       </StyledHeader>
-      <StyledContent>
-        <div style={{width: "100%"}}>
-          <TicketEventComponent />
-          <TicketEventComponent />
-          <TicketEventComponent />
-          <TicketEventComponent />
-          <TicketEventComponent />
-          <TicketEventComponent />
-        </div>
-        <StyledControls>
-          <StyledTotal>Odds: 26.43</StyledTotal>
-          <div>
-            <input type="number" placeholder="Amount" /> <span>$</span>
-          </div>
-          <StyledWin>
-            Possible win: <span>352,60</span>
-          </StyledWin>
-          <StyledBtn>Place bet</StyledBtn>
-          <ClearBtn>clear</ClearBtn>
-        </StyledControls>
-      </StyledContent>
+      {ticketStore.opened && (
+        <StyledContent>
+          <StyledList style={{ width: "100%" }}>
+            {ticketStore.events.map((e, i) => (
+              <TicketEventComponent
+                number={i + 1}
+                eventId={e.eventId}
+                place={e.place}
+                key={e.eventId}
+              />
+            ))}
+          </StyledList>
+          <StyledControls>
+            <StyledTotal>Odds: {totalOdd}</StyledTotal>
+            <div>
+              <input
+                value={amount}
+                onChange={(e) => handleChange(e.target.value)}
+                type="number"
+                placeholder="Amount"
+              />
+              <span>$</span>
+            </div>
+            <StyledWin>
+              Possible win: <span>{winning}</span>
+            </StyledWin>
+            <StyledBtn>Place bet</StyledBtn>
+            <ClearBtn onClick={() => ticketStore.clear()}>clear</ClearBtn>
+          </StyledControls>
+        </StyledContent>
+      )}
     </StyledWrapper>
   );
-};
+});
