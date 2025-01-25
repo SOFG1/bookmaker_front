@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { eventsStore } from "../store/eventsStore";
 import { observer } from "mobx-react-lite";
 import { ticketStore } from "../store/ticketStore";
+import { formatDate } from "../utils/formatDate";
 
 const Wrapper = styled.div`
   font-size: 14px;
@@ -93,16 +94,15 @@ export const TableView = observer(() => {
       </StyledHeader>
       <Box>
         {eventsStore.events.map((e) => {
-          const date = new Date(e.commence_time);
           const ticketEvent = ticketStore.events.find(
             (ev) => ev.eventId === e.id
           );
           return (
             <Row key={e.id}>
               <RowItemDisabled
-                style={{ width: "130px", justifyContent: "flex-start" }}
+                style={{ width: "135px", justifyContent: "flex-start" }}
               >
-                {date.toDateString()}
+                {formatDate(new Date(e.commence_time).toISOString())}
               </RowItemDisabled>
               <RowItemDisabled style={{ width: "auto", marginRight: "auto" }}>
                 {e.title}
