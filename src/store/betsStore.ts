@@ -43,8 +43,9 @@ class BetsStore {
         return { ...e, odd };
       });
       const { data } = await betsApi.createBet(amount, events);
+      console.log(data)
       if (data.message === "odds_changed") {
-        eventsStore.updateEvents(data.data);
+        eventsStore.updateEvents(data.data.map((d: any) => d.event));
       }
       if (data.message === "success") {
         ticketStore.events = [];
