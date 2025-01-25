@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { IBet } from "../../store/betsStore";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { BetEventComponent } from "./BetEventComponent";
+import { formatDate } from "../../utils/formatDate";
 
 const StyledWrapper = styled.div`
   margin-bottom: 10px;
@@ -84,15 +85,10 @@ interface IProps {
 
 export const BetComponent = ({ bet }: IProps) => {
   const [opened, setOpened] = useState(false);
-
-  const date = useMemo(() => {
-    return new Date(bet.createdAt);
-  }, [bet.createdAt]);
-
   return (
     <StyledWrapper>
       <StyledHeader onClick={() => setOpened((p) => !p)}>
-        <StyledDate>{date.toDateString()}</StyledDate>
+        <StyledDate>{formatDate(bet.createdAt)}</StyledDate>
         <StyledInfo>
           <StyledAmount>{bet.amount}$</StyledAmount>
           {/* <StyledOdd>{bet.odd}</StyledOdd> */}
