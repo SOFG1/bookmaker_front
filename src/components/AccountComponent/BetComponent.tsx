@@ -12,7 +12,7 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 15px;
-  background-color: rgba(255, 255, 255, 0.506);
+  background-color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   &:hover {
     background-color: rgba(255, 255, 255, 0.575);
@@ -41,8 +41,10 @@ const StyledAmount = styled(StyledNumber)`
   font-weight: 600;
 `;
 
-const StyledWin = styled(StyledNumber)`
+const StyledWin = styled(StyledNumber)<{ $status: string }>`
   color: #0000a7;
+  ${({ $status }) => $status === "lost" && "color: #b60000aa;"}
+  ${({ $status }) => $status === "won" && "color: #0b940b;"}
 `;
 
 const StyledContent = styled.div`
@@ -58,13 +60,15 @@ const StyledFooter = styled.div`
   padding-right: 5px;
 `;
 
-const StyledStatus = styled.p`
+const StyledStatus = styled.p<{ $status: string }>`
   font-weight: 500;
   span {
     padding: 3px 10px;
     border-radius: 10px;
     background-color: #0000a7;
     color: #fff;
+    ${({ $status }) => $status === "lost" && "background-color: red;"}
+    ${({ $status }) => $status === "won" && "background-color: #00c400;"}
     margin-left: 20px;
   }
 `;
@@ -92,7 +96,7 @@ export const BetComponent = ({ bet }: IProps) => {
         <StyledInfo>
           <StyledAmount>{bet.amount}$</StyledAmount>
           {/* <StyledOdd>{bet.odd}</StyledOdd> */}
-          <StyledWin>{bet.win}$</StyledWin>
+          <StyledWin $status={bet.status}>{bet.win}$</StyledWin>
         </StyledInfo>
       </StyledHeader>
       {opened && (
@@ -101,8 +105,8 @@ export const BetComponent = ({ bet }: IProps) => {
             <BetEventComponent number={i + 1} key={e._id} event={e} />
           ))}
           <StyledFooter>
-            <StyledStatus>
-              Status: <span>Active</span>
+            <StyledStatus $status={bet.status}>
+              Status: <span>{bet.status}</span>
             </StyledStatus>
             <StyledTotal>{bet.odd}</StyledTotal>
           </StyledFooter>

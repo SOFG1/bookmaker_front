@@ -10,6 +10,7 @@ export interface IBetEvent {
   title: string;
   date: string;
   eventId: string;
+  status: string;
   odd: number;
   place: EventOddType;
 }
@@ -17,7 +18,7 @@ export interface IBetEvent {
 export interface IBet {
   _id: string;
   amount: number;
-  status: "active" | "won" | "lost"
+  status: "active" | "won" | "lost";
   odd: number;
   win: number;
   events: IBetEvent[];
@@ -54,7 +55,7 @@ class BetsStore {
       });
       const { data } = await betsApi.createBet(amount, events);
       if (data.message === "odds_changed") {
-        console.log(data)
+        console.log(data);
         eventsStore.updateEvents(data.data.map((d: any) => d.event));
       }
       if (data.message === "success") {

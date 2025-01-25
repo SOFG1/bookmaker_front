@@ -58,13 +58,17 @@ const StyledDate = styled.p`
   margin-bottom: 15px;
 `;
 
-const StyledOdd = styled.p`
+const StyledOdd = styled.p<{ $status: string }>`
   background-color: #9e860e;
   color: #fff;
   padding: 4px 6px;
   font-weight: 600;
   font-size: 13px;
   border-radius: 5px;
+  ${({ $status }) =>
+    $status === "lost" && "background-color: rgba(255, 0, 0, 0.6);"}
+  ${({ $status }) =>
+    $status === "won" && "background-color: rgba(0, 128, 0, 0.6);"}
 `;
 
 interface IProps {
@@ -83,7 +87,7 @@ export const BetEventComponent = observer(({ event, number }: IProps) => {
       </StyledContent>
       <StyledRight>
         <StyledDate>{formatDate(event.date)}</StyledDate>
-        <StyledOdd>{event.odd}</StyledOdd>
+        <StyledOdd $status={event.status}>{event.odd}</StyledOdd>
       </StyledRight>
     </StyledWrapper>
   );
