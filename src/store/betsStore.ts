@@ -53,6 +53,7 @@ class BetsStore {
       }
       return data;
     } catch (e) {
+      toast("Error occured", {type: "error"})
       console.log(e);
     } finally {
       this.isFetching = false;

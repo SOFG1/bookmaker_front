@@ -118,12 +118,12 @@ export const TicketView = observer(() => {
 
 
   const handleBet = async () => {
-    const {message} = await betsStore.createBet(Number(amount))
-    if(message === "odds_changed") {
+    const data = await betsStore.createBet(Number(amount))
+    if(data?.message === "odds_changed") {
       setOddsMessage(true)
       setTimeout(() => setOddsMessage(false), 6000)
     }
-    if(message === "success") {
+    if(data?.message === "success") {
       setAmount("")
     }
   }

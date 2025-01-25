@@ -5,8 +5,14 @@ import { observer } from "mobx-react-lite";
 import { BetComponent } from "../components/BetComponent";
 
 const StyledWrapper = styled.div`
-  min-height: 700px;
+  min-height: 600px;
 `;
+
+const StyledTitle = styled.h3`
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #fff;
+`
 
 export const BetsView = observer(() => {
   useEffect(() => {
@@ -15,6 +21,7 @@ export const BetsView = observer(() => {
 
   return (
     <StyledWrapper>
+      <StyledTitle>Bets</StyledTitle>
       {betsStore.bets.map((b) => (
         <BetComponent bet={b} key={b._id!} />
       ))}
