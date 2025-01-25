@@ -63,11 +63,10 @@ class EventsStore {
   }
 
   updateEvents(data: any[]) {
-    const formated = convertData(data)
-    for(let i = 0; i < formated.length; i ++) {
-      const item = formated[i]
+    for(let i = 0; i < data.length; i ++) {
+      const item = data[i]
       const index = this.events.findIndex(ev => ev.id === item.id)
-      this.events[index] = item
+      this.events[index].odds[item.place as EventOddType] = item.odd
     }
   }
 }
