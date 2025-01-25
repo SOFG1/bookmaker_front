@@ -1,16 +1,26 @@
 import { makeAutoObservable } from "mobx";
-import { TicketEvent, ticketStore } from "./ticketStore";
+import { ticketStore } from "./ticketStore";
 import { betsApi } from "../api/bets";
-import { eventsStore } from "./eventsStore";
+import { EventOddType, eventsStore } from "./eventsStore";
 import { userStore } from "./userStore";
 import { toast } from "react-toastify";
+
+export interface IBetEvent {
+  _id: string;
+  title: string;
+  date: string;
+  eventId: string;
+  odd: number;
+  place: EventOddType;
+}
 
 export interface IBet {
   _id: string;
   amount: number;
-  events: Array<TicketEvent & {
-    _id: string;
-  }>;
+  status: "active" | "won" | "lost"
+  odd: number;
+  win: number;
+  events: IBetEvent[];
   user: string;
   finishDate: string;
   createdAt: string;
@@ -43,19 +53,18 @@ class BetsStore {
         return { ...e, odd };
       });
       const { data } = await betsApi.createBet(amount, events);
-      console.log(data)
       if (data.message === "odds_changed") {
         eventsStore.updateEvents(data.data.map((d: any) => d.event));
       }
       if (data.message === "success") {
         ticketStore.events = [];
         userStore.user = data.data.user;
+        betsStore.bets.unshift(data.data.bet);
         toast("Success", { type: "success" });
       }
       return data;
-    } catch (e) {
-      toast("Error occured", {type: "error"})
-      console.log(e);
+    } catch (e: any) {
+      e.response?.data?.forEach((m: string) => toast(m, { type: "error" }));
     } finally {
       this.isFetching = false;
     }
