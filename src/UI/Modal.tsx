@@ -10,6 +10,7 @@ const StyledWrapper = styled.div`
   bottom: 0;
   overflow-y: auto;
   background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
 `;
 
 const StyledContent = styled.div`
