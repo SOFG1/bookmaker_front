@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { EventOddType } from "../store/eventsStore";
+import { EventOddType } from "../../store/eventsStore";
 import { observer } from "mobx-react-lite";
-import { IBetEvent } from "../store/betsStore";
-import { formatDate } from "../utils/formatDate";
+import { IBetEvent } from "../../store/betsStore";
+import { formatDate } from "../../utils/formatDate";
 
 const PlaceTexts: { [key in EventOddType]: string } = {
   win1: "1",

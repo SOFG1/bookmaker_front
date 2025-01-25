@@ -3,7 +3,7 @@ import { eventsApi } from "../api/events";
 
 export type EventOddType = "win1" | "win2" | "draw";
 
-interface IEvent {
+export interface IEvent {
   id: string;
   title: string;
   home_team: string;
@@ -63,10 +63,10 @@ class EventsStore {
   }
 
   updateEvents(data: any[]) {
-    for(let i = 0; i < data.length; i ++) {
-      const item = data[i]
-      const index = this.events.findIndex(ev => ev.id === item.id)
-      this.events[index].odds[item.place as EventOddType] = item.odd
+    for (let i = 0; i < data.length; i++) {
+      const item = data[i];
+      const index = this.events.findIndex((ev) => ev.id === item.id);
+      this.events[index].odds[item.place as EventOddType] = item.odd;
     }
   }
 }

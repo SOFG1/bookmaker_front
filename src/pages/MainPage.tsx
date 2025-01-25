@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { TableView } from "../views/TableView";
-import { TicketView } from "../views/TicketView";
+import { TableView } from "../views/MainViews/TableView";
+import { TicketView } from "../views/MainViews/TicketView";
 
 const Title = styled.h1`
   font-size: 30px;

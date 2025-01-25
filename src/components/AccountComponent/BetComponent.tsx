@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { IBet } from "../store/betsStore";
+import { IBet } from "../../store/betsStore";
 import { useMemo, useState } from "react";
 import { BetEventComponent } from "./BetEventComponent";
 
@@ -54,6 +54,7 @@ const StyledFooter = styled.div`
   display: flex;
   align-items: center;
   margin-top: 20px;
+  padding-right: 5px;
 `;
 
 const StyledStatus = styled.p`

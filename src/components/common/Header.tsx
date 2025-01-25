@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { SignInModal } from "./SignInModal";
 import { SignUpModal } from "./SignUpModal";
 import { observer } from "mobx-react-lite";
-import { userStore } from "../store/userStore";
+import { userStore } from "../../store/userStore";
 import { Link } from "react-router-dom";
 import { HeaderNav } from "./HeaderNav";
 

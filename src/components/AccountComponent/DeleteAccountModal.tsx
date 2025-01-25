@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { Modal } from "../UI/Modal";
+import { Modal } from "../../UI/Modal";
 import { useState } from "react";
-import { userApi } from "../api/user";
+import { userApi } from "../../api/user";
 import { toast } from "react-toastify";
-import { userStore } from "../store/userStore";
+import { userStore } from "../../store/userStore";
 
 const StyledWrapper = styled.div`
   display: flex;

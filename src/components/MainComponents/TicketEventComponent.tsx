@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { EventOddType, eventsStore } from "../store/eventsStore";
+import { EventOddType, eventsStore } from "../../store/eventsStore";
 import { useMemo } from "react";
 import { observer } from "mobx-react-lite";
-import { ticketStore } from "../store/ticketStore";
+import { ticketStore } from "../../store/ticketStore";
 
 const PlaceTexts: {[key in EventOddType]: string} = {
   "win1": "1",

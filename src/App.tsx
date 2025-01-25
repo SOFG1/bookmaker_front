@@ -1,5 +1,5 @@
 import { ToastContainer } from "react-toastify";
-import { Header } from "./components/Header";
+import { Header } from "./components/common/Header";
 import { AppRouter } from "./AppRouter";
 import { BrowserRouter } from "react-router-dom";
 import "./store"

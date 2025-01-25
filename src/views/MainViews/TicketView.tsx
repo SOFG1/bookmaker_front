@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { TicketEventComponent } from "../components/TicketEventComponent";
+import { TicketEventComponent } from "../../components/MainComponents/TicketEventComponent";
 import { observer } from "mobx-react-lite";
-import { ticketStore } from "../store/ticketStore";
+import { ticketStore } from "../../store/ticketStore";
 import { useMemo, useState } from "react";
-import { MAX_BET, MAX_WIN } from "../constants";
-import { betsStore } from "../store/betsStore";
+import { MAX_BET, MAX_WIN } from "../../constants";
+import { betsStore } from "../../store/betsStore";
 
 const StyledWrapper = styled.div`
   background-color: #fde054;

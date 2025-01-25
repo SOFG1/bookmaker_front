@@ -2,8 +2,8 @@ import { observer } from "mobx-react-lite";
 import { userStore } from "../store/userStore";
 import styled from "styled-components";
 import { useState } from "react";
-import { DeleteAccountModal } from "../components/DeleteAccountModal";
-import { BetsView } from "../views/BetsView";
+import { DeleteAccountModal } from "../components/AccountComponent/DeleteAccountModal";
+import { BetsView } from "../views/AccountViews/BetsView";
 
 const StyledEmail = styled.h1`
   font-size: 30px;

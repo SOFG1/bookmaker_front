@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { Modal } from "../UI/Modal";
+import { Modal } from "../../UI/Modal";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { userStore } from "../store/userStore";
+import { userStore } from "../../store/userStore";
 
 const StyledWrapper = styled.form`
   display: flex;
