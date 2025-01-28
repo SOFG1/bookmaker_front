@@ -16,4 +16,10 @@ export const userApi = {
   topupBalance() {
     return axiosInstance.post("/user/topup");
   },
+  verifyEmail(code: string) {
+    return axiosInstance.post("/user/verify", {code});
+  },
+  deleteUnverifiedUser() {
+    return axiosInstance.delete("/user/delete-unverified")
+  }
 };

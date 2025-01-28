@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 export interface IUser {
   _id: string;
   email: string;
+  verification?: "verified" | false;
   balance: number;
 }
 
@@ -43,7 +44,7 @@ class UserStore {
         this.setUserData(data.user, data.token);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
       toast("Error occured", { type: "error" });
     }
   }
@@ -54,7 +55,10 @@ class UserStore {
       const { data } = await userApi.checkAuth();
       this.setUserData(data.user, data.token);
     } catch (e: any) {
-      if(e?.response?.status === 401) {
+      if (e?.response?.status === 401) {
+        this.setUserData(null, null);
+      }
+      if (e?.response?.status === 404) {
         this.setUserData(null, null);
       }
     }
@@ -69,6 +73,29 @@ class UserStore {
       toast("Error occured", { type: "error" });
     } finally {
       this.isLoading = false;
+    }
+  }
+
+  async verifyEmail(code: string) {
+    try {
+      const { data } = await userApi.verifyEmail(code);
+      console.log(data);
+      this.setUserData(data.user, data.token);
+      toast("Email successfully verified!", { type: "success" });
+    } catch (e: any) {
+      const message = e?.response?.data[0] || "Code is incorrect";
+      toast(message, { type: "error" });
+      console.log(e);
+    }
+  }
+
+  async deleteUnverifiedUser() {
+    try {
+      const { data } = await userApi.deleteUnverifiedUser();
+      this.setUserData(null, null);
+      console.log(data);
+    } catch (e) {
+      console.log(e);
     }
   }
 }

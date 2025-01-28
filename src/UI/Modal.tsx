@@ -23,7 +23,7 @@ const StyledContent = styled.div`
 
 interface Props {
   children: React.ReactNode;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 export const Modal = ({ children, onClose }: Props) => {
