@@ -11,7 +11,7 @@ export const PaymentComponent = () => {
       }}
     >
       <PayPalButtons
-        createOrder={(data, actions) => {
+        createOrder={(_data, actions) => {
           return actions.order.create({
             purchase_units: [
               {
@@ -21,7 +21,7 @@ export const PaymentComponent = () => {
             intent: "CAPTURE",
           });
         }}
-        onApprove={async (data, actions) => {
+        onApprove={async (_data, actions) => {
           return actions?.order?.capture().then((details) => {
             alert(
               `Transaction completed by ${details?.payer?.name?.given_name}`

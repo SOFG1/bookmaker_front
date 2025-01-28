@@ -13,14 +13,14 @@ const StyledEmail = styled.h1`
   color: #fff;
 `;
 
-const StyledBalance = styled.p`
-  font-size: 22px;
-  color: #fff;
-  margin-bottom: 20px;
-  span {
-    font-weight: 700;
-  }
-`;
+// const StyledBalance = styled.p`
+//   font-size: 22px;
+//   color: #fff;
+//   margin-bottom: 20px;
+//   span {
+//     font-weight: 700;
+//   }
+// `;
 
 export const AccountPage = observer(() => {
   const [showModal, setShowModal] = useState(false);
