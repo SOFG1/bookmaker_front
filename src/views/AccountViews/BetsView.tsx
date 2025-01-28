@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite";
 import { BetComponent } from "../../components/AccountComponent/BetComponent";
 
 const StyledWrapper = styled.div`
-  min-height: 600px;
+  min-height: 500px;
 `;
 
 const StyledTitle = styled.h3`
