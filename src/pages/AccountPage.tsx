@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { DeleteAccountModal } from "../components/AccountComponent/DeleteAccountModal";
 import { BetsView } from "../views/AccountViews/BetsView";
+import { PaymentComponent } from "../components/AccountComponent/PaymentComponent";
 
 const StyledEmail = styled.h1`
   font-size: 30px;
@@ -27,7 +28,7 @@ export const AccountPage = observer(() => {
   return (
     <div className="container">
       <StyledEmail>{userStore.user?.email}</StyledEmail>
-      <StyledBalance>
+      {/* <StyledBalance>
         Balance: <span>${userStore.user?.balance}</span>{" "}
         <button
           disabled={userStore.isLoading}
@@ -35,7 +36,8 @@ export const AccountPage = observer(() => {
         >
           Top up
         </button>
-      </StyledBalance>
+      </StyledBalance> */}
+      <PaymentComponent />
       <BetsView />
       <button onClick={() => setShowModal(true)}>Delete my account</button>
       {showModal && <DeleteAccountModal onClose={() => setShowModal(false)} />}
