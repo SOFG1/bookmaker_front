@@ -43,6 +43,7 @@ class UserStore {
         this.setUserData(data.user, data.token);
       }
     } catch (e) {
+      console.log(e)
       toast("Error occured", { type: "error" });
     }
   }
@@ -52,9 +53,10 @@ class UserStore {
     try {
       const { data } = await userApi.checkAuth();
       this.setUserData(data.user, data.token);
-    } catch (e) {
-      this.setUserData(null, null);
-      console.log(e);
+    } catch (e: any) {
+      if(e?.response?.status === 401) {
+        this.setUserData(null, null);
+      }
     }
   }
 
